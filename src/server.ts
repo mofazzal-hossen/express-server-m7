@@ -37,8 +37,13 @@ const initDB = async () => {
     `);
         console.log("table created successfully");
     }
-    catch (error) {
-        console.error(error);
+    catch (error: any) {
+        res.status(500).json({
+            message: error.message,
+            error: error
+
+        });
+
     }
 
 }
@@ -54,9 +59,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/products', async (req: Request, res: Response) => {
-    console.log(req.body);
+    // console.log(req.body);
+    const { name, email, password, is_admin, age } = req.body;
+    const result = await pool.query(`INSERT INTO users (name, email, password, is_admin, age) VALUES ($1, $2, $3, $4, $5) RETURNING *`, [name, email, password, is_admin, age]);
+    console.log(result.rows[0]);
     res.status(201).json({
-        message: 'product received',
+        message: 'product created successfully',
         data: req.body
     });
 });
