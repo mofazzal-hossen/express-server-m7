@@ -157,6 +157,33 @@ app.put('/products/:id', async (req: Request, res: Response) => {
 
 
 // app.delete(/)
+app.delete('/products/:id', async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        const result = await pool.query(`
+            DELETE FROM users WHERE id=$1
+            `, [id]);
+
+        if (result.rowCount === 0) {
+            res.status(404).json({
+                message: "user not fund ",
+                successfuly: "false"
+
+            })
+        }
+        res.status(200).json({
+            success: true,
+            message: "user delete successfully",
+            data: {}
+        })
+    } catch (error: any) {
+        res.status(404).json({
+            message: error.message,
+            error: error
+        })
+
+    }
+})
 
 
 app.listen(port, () => {
