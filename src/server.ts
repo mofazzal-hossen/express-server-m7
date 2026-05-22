@@ -124,7 +124,13 @@ app.put('/products/:id', async (req: Request, res: Response) => {
 
     try {
         const result = await pool.query(`
-       UPDATE users SET name=$1, password=$2, age=$3 WHERE id=$4 RETURNING *
+       UPDATE users SET
+        name=COALESCE($1,name),
+        password=COALESCE($2,password),
+         age=COALESCE($3,age)
+
+     
+         WHERE id=$4 RETURNING *
         `,
             [name, password, age, id]);
 
@@ -148,6 +154,9 @@ app.put('/products/:id', async (req: Request, res: Response) => {
 
 
 })
+
+
+// app.delete(/)
 
 
 app.listen(port, () => {
