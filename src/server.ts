@@ -114,6 +114,39 @@ app.get('/products/:id', async (req: Request, res: Response) => {
             error: error
         })
     }
+});
+
+//updata data 
+
+app.put('/products/:id', async (req: Request, res: Response) => {
+    const { id } = req.params
+    const { name, password, age, } = req.body
+
+    try {
+        const result = await pool.query(`
+       UPDATE users SET name=$1, password=$2, age=$3 WHERE id=$4 RETURNING *
+        `,
+            [name, password, age, id]);
+
+        if (result.rows.length) {
+
+            res.status(200).json({
+                status: "success",
+                message: "product retrieved successfully",
+                data: result.rows[0]
+            })
+        }
+
+        // console.log(result)
+
+    } catch (error: any) {
+        res.status(404).json({
+            message: error.message,
+            error: error
+        })
+    }
+
+
 })
 
 
