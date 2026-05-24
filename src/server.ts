@@ -4,7 +4,7 @@ import { Pool } from "pg"
 import config from './config';
 
 const app: Application = express()
-const port = config.PORT
+const port = config.port
 
 app.use(express.json());
 app.use(express.text());
