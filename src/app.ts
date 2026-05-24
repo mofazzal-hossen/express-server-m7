@@ -3,6 +3,7 @@ import type { Application, Request, Response } from 'express';
 
 import config from './config';
 import { initDB, pool } from './db';
+import { productsRoute } from './module/products/products.route';
 
 const app: Application = express()
 
@@ -24,16 +25,9 @@ app.get('/', (req, res) => {
     })
 });
 
-app.post('/products', async (req: Request, res: Response) => {
-    // console.log(req.body);
-    const { name, email, password, is_admin, age } = req.body;
-    const result = await pool.query(`INSERT INTO users (name, email, password, is_admin, age) VALUES ($1, $2, $3, $4, $5) RETURNING *`, [name, email, password, is_admin, age]);
-    console.log(result.rows[0]);
-    res.status(201).json({
-        message: 'product created successfully',
-        data: req.body
-    });
-});
+
+
+app.use('/products', productsRoute)
 
 app.get('/products', async (req: Request, res: Response) => {
     try {
