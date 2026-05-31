@@ -44,3 +44,36 @@ class BankAccount {
 }
 
 
+// ১. প্যারেন্ট ক্লাস
+class User {
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    login() {
+        console.log(`${this.name} লগইন করেছেন।`);
+    }
+}
+
+// ২. চাইল্ড ক্লাস (Admin ইউজার থেকে সব কিছু Inherit করবে)
+class Admin extends User {
+    constructor(name, email, role) {
+        // super() ব্যবহার করে প্যারেন্ট ক্লাসের কনস্ট্রাক্টরকে কল করা হয়
+        super(name, email); 
+        this.role = role;
+    }
+
+    deleteProduct() {
+        console.log(`${this.name} একটি প্রোডাক্ট ডিলিট করেছেন।`);
+    }
+}
+
+// অবজেক্ট তৈরি
+const generalUser = new User("Munna", "munna@example.com");
+const adminUser = new Admin("System Admin", "admin@suncart.com", "SuperAdmin");
+
+generalUser.login(); // কাজ করবে
+adminUser.login();    // কাজ করবে (Inheritance এর কারণে)
+adminUser.deleteProduct(); // শুধু অ্যাডমিন পারবে
+// generalUser.deleteProduct(); // এরর দিবে (সাধারণ ইউজারের এই ক্ষমতা নেই)
