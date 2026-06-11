@@ -1,11 +1,8 @@
-import { Router, type Request, type Response } from "express";
+import { Router } from "express";
+import { createUser } from "./products.controler";
 
+const router = Router();
 
+router.post('/', createUser);
 
-
-const router = Router()
-
-router.post('/', productsRoute.createUser)
-export const productsRoute = {
-    createUser
-}
+export const productsRoute = router;
